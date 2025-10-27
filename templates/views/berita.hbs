@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{pageTitle}}</title>
+    <link rel="icon" href="/img/cuaca.png">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-content">
+        <div class="container">
+            {{>header}}
+            
+            <div class="news-container fade-in">
+                <div class="news-header">
+                    <h2>📰 Berita Terkini</h2>
+                    <p>Berita terbaru dari berbagai sumber media</p>
+                    <div class="news-stats">
+                        <span class="stat-item">🔄 Real-time Data</span>
+                        <span class="stat-item">📊 MediaStack API</span>
+                        <span class="stat-item">🌍 Global Sources</span>
+                    </div>
+                </div>
+                
+                <!-- Debug Info (bisa dihapus nanti) -->
+                <div style="background: #e8f4fd; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+                    <small>Debug: Error = {{error}}, Berita count = {{#if berita}}{{berita.length}}{{else}}0{{/if}}</small>
+                </div>
+                
+                {{#if error}}
+                    <div class="error-message">
+                        <h3>⚠️ Terjadi Kesalahan</h3>
+                        <p>{{error}}</p>
+                        <div class="error-solution">
+                            <p><strong>Status:</strong> Sedang menggunakan berita demo</p>
+                            <p>API Key: {{#if berita}}Connected{{else}}Using Fallback{{/if}}</p>
+                        </div>
+                    </div>
+                {{/if}}
+                
+                {{#if berita}}
+                    <div class="news-info">
+                        <p>📋 Menampilkan <strong>{{berita.length}} berita</strong> terbaru</p>
+                        <small>Data dari MediaStack API • Diperbarui otomatis</small>
+                    </div>
+                    
+                    <div class="news-grid">
+                        {{#each berita}}
+                        <div class="news-card">
+                            <div class="news-image">
+                                {{#if image}}
+                                    <img src="{{image}}" alt="{{title}}" onerror="this.style.display='none'">
+                                {{else}}
+                                    <div class="no-image">
+                                        <span>📰</span>
+                                        <p>Gambar tidak tersedia</p>
+                                    </div>
+                                {{/if}}
+                                <div class="news-category-badge">{{category}}</div>
+                            </div>
+                            <div class="news-content">
+                                <h3 class="news-title">{{this.title}}</h3>
+                                <p class="news-description">
+                                    {{#if this.description}}
+                                        {{this.description}}
+                                    {{else}}
+                                        Tidak ada deskripsi tersedia untuk berita ini.
+                                    {{/if}}
+                                </p>
+                                <div class="news-meta">
+                                    <div class="news-source">
+                                        <strong>📰 Sumber:</strong> {{this.source}}
+                                    </div>
+                                    <div class="news-author">
+                                        <strong>✍️ Penulis:</strong> {{this.author}}
+                                    </div>
+                                    <div class="news-date">
+                                        <strong>📅</strong> 
+                                        {{formatDate this.published_at}}
+                                    </div>
+                                </div>
+                                <div class="news-actions">
+                                    <a href="{{this.url}}" target="_blank" class="read-more">
+                                        📖 Baca Selengkapnya →
+                                    </a>
+                                    <button class="share-btn" onclick="shareNews('{{this.title}}', '{{this.url}}')">
+                                        🔗 Share
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        {{/each}}
+                    </div>
+                {{else}}
+                    {{#unless error}}
+                    <div class="loading">
+                        <div class="loading-spinner"></div>
+                        <p>🔄 Memuat berita terkini...</p>
+                        <p class="loading-sub">Mohon tunggu sebentar</p>
+                    </div>
+                    {{else}}
+                    <div class="no-news">
+                        <h3>📭 Tidak ada berita yang dapat ditampilkan</h3>
+                        <p>Silakan refresh halaman atau coba lagi nanti.</p>
+                    </div>
+                    {{/unless}}
+                {{/if}}
+                
+                <div class="news-footer">
+                    <p>
+                        <strong>Dikembangkan oleh Hasanul Fikri</strong> | 
+                        Data provided by <a href="https://mediastack.com/" target="_blank">MediaStack API</a> | 
+                        Terakhir update: <span id="current-time"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {{>footer}}
+    
+    <script>
+        // Update current time
+        function updateCurrentTime() {
+            const now = new Date();
+            const options = { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            };
+            const timeElement = document.getElementById('current-time');
+            if (timeElement) {
+                timeElement.textContent = now.toLocaleDateString('id-ID', options);
+            }
+        }
+        
+        // Share news function
+        function shareNews(title, url) {
+            if (navigator.share) {
+                navigator.share({
+                    title: title,
+                    text: 'Lihat berita menarik ini: ' + title,
+                    url: url
+                })
+                .then(() => console.log('Berhasil share berita'))
+                .catch((error) => console.log('Error sharing:', error));
+            } else {
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('Link berita telah disalin ke clipboard!');
+                });
+            }
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 60000);
+            
+            // Log untuk debugging frontend
+            console.log('📰 News page loaded successfully');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{pageTitle}}</title>
+    <link rel="icon" href="/img/cuaca.png">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="main-content">
+        {{>header}}
+        
+        <div class="faq-container">
+            <h2>❓ Frequently Asked Questions (FAQ)</h2>
+            
+            <div class="faq-item">
+                <h3>1. Halaman ini digunakan untuk apa?</h3>
+                <p><strong>Jawaban:</strong> Aplikasi "Weather & News Info" adalah platform informasi cuaca dan berita yang dikembangkan oleh <strong>Hasanul Fikri</strong> sebagai project mata kuliah Pemrograman Berbasis Jaringan. Fitur utama aplikasi ini meliputi:</p>
+                <ul>
+                    <li>Pencarian informasi cuaca real-time berdasarkan lokasi dengan akurasi tinggi</li>
+                    <li>Menampilkan berita terkini dari berbagai sumber media terpercaya</li>
+                    <li>Memberikan informasi dalam format JSON melalui API endpoints yang terstruktur</li>
+                    <li>Antarmuka yang responsif dan user-friendly dengan design modern</li>
+                    <li>Integrasi multiple API untuk data yang komprehensif</li>
+                </ul>
+                <p><em>"Membuat teknologi yang bermanfaat untuk masyarakat" - Hasanul Fikri</em></p>
+            </div>
+
+            <div class="faq-item">
+                <h3>2. Apa itu API?</h3>
+                <p><strong>Jawaban:</strong> API (Application Programming Interface) adalah sekumpulan aturan, protokol, dan tools yang memungkinkan aplikasi yang berbeda untuk berkomunikasi dan bertukar data satu sama lain. API bertindak sebagai perantara yang memungkinkan developer untuk mengakses fitur atau data dari aplikasi lain tanpa perlu mengetahui detail implementasi internalnya.</p>
+                <p><strong>Analogi:</strong> Bayangkan API seperti pelayan di restoran - Anda (klien) memesan makanan melalui pelayan (API), dan pelayan tersebut yang berkomunikasi dengan dapur (server) untuk menyiapkan pesanan Anda.</p>
+                <p>Contoh: Ketika aplikasi ini menampilkan cuaca, sebenarnya kita menggunakan API dari Weatherstack untuk mendapatkan data cuaca terkini tanpa perlu membangun sistem prediksi cuaca sendiri.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>3. API apa yang digunakan dalam aplikasi ini?</h3>
+                <p><strong>Jawaban:</strong> Aplikasi ini mengintegrasikan tiga API utama :</p>
+                <ul>
+                    <li><strong>Mapbox Geocoding API</strong> - Untuk mengkonversi nama lokasi menjadi koordinat geografis (latitude dan longitude) dengan presisi tinggi</li>
+                    <li><strong>Weatherstack API</strong> - Untuk mendapatkan data cuaca real-time berdasarkan koordinat dengan update setiap jam</li>
+                    <li><strong>MediaStack API</strong> - Untuk mengambil berita terkini dari 7,500+ sumber media worldwide dengan filtering berdasarkan negara dan bahasa</li>
+                </ul>
+                <p><strong>Arsitektur Integrasi API:</strong></p>
+                <ol>
+                    <li>User input lokasi → Mapbox API (geocoding)</li>
+                    <li>Dapat koordinat → Weatherstack API (weather data)</li>
+                    <li>Tampilkan hasil → Frontend rendering</li>
+                    <li>Berita terpisah → MediaStack API (news data)</li>
+                </ol>
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="/img/integrasiAPI.png" alt="Arsitektur API Aplikasi" class="architecture-img">
+                    <p><em>Diagram Arsitektur Integrasi API oleh Hasanul Fikri</em></p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3>4. Salah satu pola arsitektur API adalah RESTful</h3>
+                <p><strong>Jawaban:</strong> RESTful API adalah arsitektur API yang mengikuti prinsip-prinsip REST (Representational State Transfer) yang dikembangkan oleh Roy Fielding. <strong>Hasanul Fikri</strong> memilih RESTful karena kesederhanaan dan skalabilitasnya. Karakteristik utama RESTful API:</p>
+                <ul>
+                    <li><strong>Stateless</strong> - Setiap request HTTP mengandung semua informasi yang diperlukan server untuk memproses request</li>
+                    <li><strong>Client-Server</strong> - Pemisahan concerns yang jelas antara client dan server</li>
+                    <li><strong>Cacheable</strong> - Response dapat di-cache untuk meningkatkan performa dan efisiensi</li>
+                    <li><strong>Uniform Interface</strong> - Antarmuka yang konsisten dan terstandarisasi across semua endpoints</li>
+                    <li><strong>Layered System</strong> - Arsitektur berlapis yang memungkinkan skalabilitas dan keamanan</li>
+                    <li><strong>Code on Demand (optional)</strong> - Server dapat mengirim executable code ke client</li>
+                </ul>
+                
+                <p><strong>Contoh implementasi RESTful oleh Hasanul Fikri:</strong></p>
+                <pre><code>// Endpoint untuk data cuaca
+GET /infocuaca?address=padang
+
+// Endpoint untuk berita
+GET /berita
+
+// Endpoint untuk halaman bantuan
+GET /bantuan
+
+// Struktur response JSON
+{
+  "prediksiCuaca": "Info cuaca detail...",
+  "lokasi": "Padang, Indonesia", 
+  "address": "padang"
+}</code></pre>
+                
+                <div style="text-align: center; margin: 20px 0;">
+                    <img src="/img/REST API.png" alt="REST API Architecture" class="architecture-img">
+                    <p><em>Visualisasi RESTful API Architecture</em></p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <h3>5. Bagaimana cara menggunakan aplikasi ini?</h3>
+                <p><strong>Jawaban:</strong> Berikut panduan lengkap penggunaan aplikasi :</p>
+                <ol>
+                    <li><strong>Halaman Home (Pencarian Cuaca):</strong>
+                        <ul>
+                            <li>Masukkan nama kota/lokasi di kolom pencarian (contoh: "Padang", "Universitas Negeri Padang")</li>
+                            <li>Klik tombol "Cari lokasi"</li>
+                            <li>Tunggu proses geocoding dan fetching data cuaca</li>
+                            <li>Informasi cuaca akan ditampilkan secara real-time</li>
+                        </ul>
+                    </li>
+                    <li><strong>Halaman Berita:</strong>
+                        <ul>
+                            <li>Kunjungi menu "Berita" untuk melihat berita terkini</li>
+                            <li>Berita diambil dari berbagai sumber media Indonesia</li>
+                            <li>Klik "Baca Selengkapnya" untuk membaca artikel lengkap</li>
+                        </ul>
+                    </li>
+                    <li><strong>Halaman Tentang Saya:</strong>
+                        <ul>
+                            <li>Lihat profil dan CV lengkap Hasanul Fikri</li>
+                            <li>Informasi pendidikan, pengalaman, dan skills</li>
+                        </ul>
+                    </li>
+                    <li><strong>Halaman Bantuan (FAQ ini):</strong>
+                        <ul>
+                            <li>Semua pertanyaan umum tentang aplikasi</li>
+                            <li>Penjelasan teknis tentang implementasi</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+
+            <div class="faq-item">
+                <h3>6. Teknologi apa saja yang digunakan?</h3>
+                <p><strong>Jawaban:</strong> Aplikasi ini dibangun dengan stack teknologi modern :</p>
+                <ul>
+                    <li><strong>Backend:</strong> Node.js, Express.js, Handlebars (hbs)</li>
+                    <li><strong>Frontend:</strong> HTML5, CSS3, JavaScript (Vanilla), Fetch API</li>
+                    <li><strong>APIs:</strong> Mapbox Geocoding, Weatherstack, MediaStack</li>
+                    <li><strong>Tools:</strong> Git, GitHub, Postman, VS Code</li>
+                    <li><strong>Architecture:</strong> MVC Pattern, RESTful APIs, Client-Server</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {{>footer}}
+</body>
+</html>

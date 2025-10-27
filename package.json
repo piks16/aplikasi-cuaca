@@ -1,0 +1,21 @@
+{
+  "name": "web-server",
+  "version": "1.0.0",
+  "description": "Aplikasi Cek Cuaca dan Berita oleh Hasanul Fikri",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js -e js,hbs"
+  },
+  "keywords": ["weather", "news", "express", "nodejs", "hasanul-fikri"],
+  "author": "Hasanul Fikri",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "hbs": "^4.2.0",
+    "postman-request": "^2.88.1-postman.31"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
